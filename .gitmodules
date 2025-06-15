@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/Nick-Leon-342/Wuerflii-Backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Nick-Leon-342/Wuerflii-Frontend.git
