@@ -3,6 +3,9 @@
 # Wuerflii
 
 This is the parent repo of backend and frontend.
+This was my first JS project ever. It started with an idea to remove the paperwork for my parents while playing. I started with the basics - just plain HTML, CSS and JavaScript - until, one day, I moved to ReactJS. The backend is written in NodeJS. 
+Because it's my first project published on GitHub I am not very familiar with the whole Issue and Pull Request kind of stuff. Even though I think no one will ever contribute to this project I humbly ask you to fogive me for my lack of knowledge in this regard :)
+
 
 You can look into the _docker-compose.yml_ for the basic deployement in docker. (Including a postgresql database)
 
