@@ -10,11 +10,36 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE}
-#    ports:
-#      - 20000:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    ports:
+      - 20000:5432
     restart: always
     volumes:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+
+  postgres-backup:
+    image: prodrigestivill/postgres-backup-local
+    container_name: wuerflii-postgresql-backup
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgresql
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      SCHEDULE: "0 * * * *"
+      BACKUP_KEEP_DAYS: 7
+      BACKUP_KEEP_WEEKS: 4
+      BACKUP_KEEP_MONTHS: 6
+      BACKUP_FILENAME: "wuerflii_%Y-%m-%d_%H.sql.gz"
+    volumes:
+      - ./postgresql_backups:/backups
 
   backend:
     container_name: wuerflii-backend
@@ -23,7 +48,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
 
   frontend:
     container_name: wuerflii-frontend
@@ -32,6 +58,6 @@ services:
     ports:
       - 10000:80
     depends_on:
-      - backend
-      - postgresql
+      postgresql:
+        condition: service_healthy
 
