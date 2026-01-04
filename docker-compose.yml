@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE}
+      PGUSER: ${DB_USERNAME}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
