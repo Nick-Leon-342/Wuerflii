@@ -17,8 +17,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    ports:
-      - 20000:5432
     restart: always
     volumes:
       - ./postgresql:/var/lib/postgresql/
@@ -30,7 +28,7 @@ services:
       postgresql:
         condition: service_healthy
     environment:
-      POSTGRES_HOST: postgresql
+      POSTGRES_HOST: ${DB_HOST}
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -61,4 +59,3 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-
